@@ -1,0 +1,48 @@
+\documentclass{article}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{algpseudocode}
+\newcommand{\QED}{\hfill {\qed}}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\title{\#1 Assignment - CMPT 405}
+\author{Luiz Fernando Peres de Oliveira - 301288301 - lperesde@sfu.ca}
+
+\begin{document}
+
+\maketitle
+
+\textbf{\#1} - Let \textit{C} be the array containing all the possible coins \textit{\{1, 5, 10, 25, 100, 200 \}}. Let $V$ be the total change value.\\
+\\
+Algorithm:\\\\
+\textbf{Input:} \textit{C, V}
+\begin{algorithmic}
+\State $d\gets$ sort C such that $d_1 \geq d_2 \geq ... \geq d_n$
+\State $res \gets \emptyset;$  $i \gets 1$
+\While{$V > 0$}
+\If {$V \geq d_i$}
+    \State $n_{coins}\gets   \floor*{\frac{V}{d_i}}$
+    \State $V \gets V - (n_{coins} * d_i)$
+    \State $res \gets res \cup \{ (d_i, n_{coins}) \}$
+\EndIf
+\State $i \gets i + 1$
+\EndWhile
+\State return $res$\\
+\end{algorithmic}
+\textit{Intuition:} $\forall (d_i, d_j) \in C$, $1 \leq i < j \leq n$, $d_i \geq 2*d_j$, meaning that if I the algorithm chooses any $d_j$ over any $d_i$, it will have to pick at least 2 times more coins for some value $V$ that satisfies both $d_i$ and $d_j$.\\
+\begin{proof}
+Now, imagine that the algorithm chooses $d_j$ over $d_i$, then we have two cases:\\
+- Case 1. $d_i > V$:\\
+\tab If so, we are done because there are no possible ways of choosing $d_i$ for value $V$.\\
+- Case 2. $d_i \leq V$:\\
+\tab If that was the case, we would have an optimal set $OPT$ such that $OPT_{i-1} \cup d_j \subseteq OPT$, which is not the case, once the iteration $i$ will happen before the iteration $j$, causing the algorithm to choose $d_i$ over $d_j$ (and never the opposite) for any value $V$ that satisfies both $d_i$ and $d_j$.\\\\
+The only way to give more coins than the smallest possible number of coins for any change would be in a case where the algorithm chooses $d_j$ over a $d_i$, which will never happen. \qedhere
+\end{proof}
+\end{document}
