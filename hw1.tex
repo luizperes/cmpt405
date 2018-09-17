@@ -34,7 +34,7 @@ Algorithm:\\\\
 \EndIf
 \State $i \gets i + 1$
 \EndWhile
-\State return $res$\\
+\State \textbf{return} $res$\\
 \end{algorithmic}
 \textit{Intuition:} $\forall (d_i, d_j) \in C$, $1 \leq i < j \leq n$, $d_i \geq 2*d_j$, meaning that if I the algorithm chooses any $d_j$ over any $d_i$, it will have to pick at least 2 times more coins for some value $V$ that satisfies both $d_i$ and $d_j$.\\
 \begin{proof}
@@ -78,4 +78,22 @@ Let $K_{opt}$ be the optimal set of items in a knapsack and let $K_j$ be the cho
 $W = 1000$
 \\$K_{opt} = \{i_2\} ($utility $= 1000)$, $K_{greedy} = \{i_1\} ($utility $= 2)$\\
 \textbf{\#3}\\
+The idea here is to use the greedy approach of the \textbf{set cover} problem. Let $U$ be the the collection with all tiles $a_{ij}$.\\\\
+Algorithm:\\\\
+\textbf{Input:} \textit{U}
+\begin{algorithmic}
+\For{$i$ \textbf{from} $1$ \textbf{to} $K$}
+  \For{$j$ \textbf{from} $1$ \textbf{to} $n_i$}
+    \State $arr[i] \gets$ sort tiles such that $a_{ij} \geq a_{ij+1} \geq ... \geq a_{i_ni}$
+  \EndFor
+\EndFor
+\State $S \gets$ create sets $S_1, S_2,...,S_{max(n_i)}$ using adjacent tiles in $arr$. 
+\State $C \gets 0$
+\While{all tiles are not covered}
+  \State choose $s \in S$ such that $s$ contains most uncovered tiles.
+  \State mark the tiles in $s$ as covered
+  \State $C \gets C + 1$
+\EndWhile
+\State \textbf{return} C
+\end{algorithmic}
 \end{document}
