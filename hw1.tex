@@ -119,4 +119,37 @@ Our Greedy algorithm selects the set with largest number of uncovered tiles $S_1
 \\
 $T_{greedy} = \{S_1, S_2, S_4, S_5, S_6, S_7, S_8\}$. \textbf{min:} $7$ colors\\
 $T_{opt} = \{S_1, S_2, S_5, S_6, S_7, S_8\}$. \textbf{min:} 6 colors\\
+\\
+\textbf{\#4}\\
+\textit{Definition:} For $0 \leq i \leq m$, $0 \leq j \leq n$, define $M[i, j]$ as the optimal number of paths in the Cartesian plane from $(0, 0)$ to $(i, j)$ that uses the combined number of steps of type $U$(up, $M[i-1, j]$), $R$(right, $M[i, j-1]$) and $D$(diagonal, $M[i-1, j-1]$). The optimal number of paths from $(0,0)$ to $(m, n)$ is then $M[m, n]$.\\
+\\
+\textit{Recurrence:}
+\begin{gather*}
+M[i, j] =
+\begin{cases}
+1 \tab\tab\tab\tab\tab\tab\tab $if $i = 0$ or $j = 0 \\
+M[i-1, j] + M[i, j-1] + M[i-1, j-1] \tab $ otherwise $
+\end{cases}
+\end{gather*}\\
+Algorithm:\\
+\textbf{Input:} \textit{m, n}
+\begin{algorithmic}
+\State Make matrix $M$ with dimensions $m \times n$
+\For{$i$ \textbf{from} $0$ \textbf{to} $m$}
+  \State $M[i, 0] \gets 1$
+\EndFor
+\For{$j$ \textbf{from} $0$ \textbf{to} $n$}
+  \State $M[0, j] \gets 1$
+\EndFor
+\For{$i$ \textbf{from} $1$ \textbf{to} $m$}
+  \For{$j$ \textbf{from} $1$ \textbf{to} $n$}
+    \State $M[i, j] \gets M[i-1, j] + M[i, j-1] + M[i-1, j-1]$
+  \EndFor
+\EndFor
+\State \textbf{return} $M[m, n]$\\
+\end{algorithmic}
+\textit{Running time evaluation:} All operations on $M$ (inside the loops) are constant and therefore the running time of the algorithm is $O(mn)$\\\\
+\textit{Expression}:\\
+For $d$ steps of type $D$(diagonal), there must have $m - d$ steps of type $U$ and $n - d$ steps of type $R$, in order to reach $(m, n)$. It can then be represented by:\\
+$$M(m, n) = \sum_{d=0}^{min(m, n)} {m + n - d \choose m} {m \choose d} $$
 \end{document}
