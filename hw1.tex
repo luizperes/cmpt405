@@ -142,7 +142,7 @@ Algorithm:\\
 \EndFor
 \State \textbf{return} $M[m, n]$\\
 \end{algorithmic}
-\textit{Running time:} All operations on $M$ (inside the loops) are constant and therefore the running time of the algorithm is $O(mn)$\\\\
+\textit{Running time:} The running time of the loops are respectively $O(m)$, $O(n)$ and $O(mn)$. All operations on $M$ (inside the loops) are constant ($O(1)$) and therefore the total running time of the algorithm is $O(mn)$.\\\\
 \textit{Expression}:\\
 For $d$ steps of type $D$(diagonal), there must have $m - d$ steps of type $U$ and $n - d$ steps of type $R$, in order to reach $(m, n)$. It can then be represented by:\\
 $$M(m, n) = \sum_{d=0}^{min(m, n)} {m + n - d \choose m} {m \choose d} $$\\\\
