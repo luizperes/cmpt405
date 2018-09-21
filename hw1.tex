@@ -152,7 +152,7 @@ Algorithm:\\
 \textbf{Input:} \textit{T}
 \begin{algorithmic}
 \For{\textbf{each} $v \in T, children(v) = \emptyset $}
-  \State $S_v \gets$ group $0$'s and $1$'s $\in v$ as a list, such that no $0$ in position $i$ is followed by another (group of) $0$ in position $i+1$ and no $1$ in position $i$ is followed by another (group of) $1$ in position $i+1$
+  \State $S_v \gets$ group $0$'s and $1$'s $\in v$ as a list, such that no $0$ in position $i$ is \tab followed by another (group of) $0$ in position $i+1$ and no $1$ in position \tab $i$ is followed by another (group of) $1$ in position $i+1$
 \EndFor
 \For{\textbf{each} $w \in T_{postorder}, children(w) = \{u, v\}$}
   \State $S_w \gets$ matching-indexes $0$'s in both $S_v$ and $S_u$
@@ -162,8 +162,8 @@ Algorithm:\\
 \State $Res \gets \emptyset$
 \For{\textbf{each} $v \in T$}
   \If{$S_v \neq \emptyset$}
-    \State $rectangle \gets \forall(v, (i, j)) \in S_v$ where $p_{v_ij} = \{0\}^{|v|}$
-    \State $Res \gets Res$ $\cup$ $rectangle$
+    \State $rectangles \gets [v, (i, j)]$ $|$ for all $p_{v_{ij}} \in S_v$ where $p_{v_{ij}}$ is a group of $0$'s at \tab\tab\tab\space\space most $\{0\}^{|v|}$
+    \State $Res \gets Res$ $\cup$ $rectangles$
   \EndIf
 \EndFor
 \State \textbf{return} $Res$\\
