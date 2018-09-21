@@ -78,47 +78,41 @@ Let $K_{opt} \subseteq \{i_1, i_2, i_3,..., i_n\}$ be the optimal set of items i
 $W = 1000$
 \\$K_{opt} = \{i_2\} ($utility $= 1000)$, $K_{greedy} = \{i_1\} ($utility $= 2)$\\
 \textbf{\#3}\\
-The idea here is to use the greedy approach of the \textbf{set cover} problem. Let $U$ be the the collection with all tiles $a_{ij}$ and let two tiles $a_{ij}, a_{i+1k}$ be adjancent if it is possible to color them horizontally, meeting the algorithm criteria.\\\\
+The idea here is to use the greedy approach to check ahead and count the number of tiles $a_{xy}$, $1 \leq i < x \leq k$, $1 \leq y \leq n_x$ adjacent to a tile $a_{ij}$.  Basically, if a tile $a_{ij}$ touches the bounds of a tile $a_{xy}$, we say they are adjacent. The $MAX$ number of adjacent tiles is then then minimum required number of colors for our solution. For example, if we have the tiles $a_{11} = 0.6$, $a_{12} = 0.4$ and $a_{21} = 0.35$, $a_{22} = 0.35$, $a_{23} = 0.3$, then $a_{11}$ is adjacent to $a_{21}$ and $a_{22}$ and $a_{12}$ is adjacent to $a_{22}$ and $a_{23}$. The minimum number of colours required would then be $4$ in this case.\\\\
 Algorithm:\\\\
-\textbf{Input:} \textit{U}
+\textbf{Input:} \textit{wall, k}
 \begin{algorithmic}
-\For{$i$ \textbf{from} $1$ \textbf{to} $K$}
+\For{$i$ \textbf{from} $1$ \textbf{to} $k$}
   \For{$j$ \textbf{from} $1$ \textbf{to} $n_i$}
-    \State $arr[i] \gets$ sort tiles such that $a_{ij} \geq a_{ij+1} \geq ... \geq a_{i_ni}$
+    \State $wall_i \gets$ sort tiles such that $a_{ij} \geq a_{ij+1} \geq ... \geq a_{in_i}$
   \EndFor
 \EndFor
-\State $S \gets$ create sets $S_1, S_2,...,S_{n_{overlaps}}$ for each possible row using adjacent tiles in $arr$.
 \State $C \gets 0$
-\While{all tiles are not covered}
-  \State choose $s \in S$ such that $s$ contains most uncovered tiles.
-  \State mark the tiles in $s$ as covered
-  \State $C \gets C + 1$
-\EndWhile
-\State \textbf{return} C\\\\
+\For{$i$ \textbf{from} $1$ \textbf{to} $k - 1$}
+  \State $c \gets 0$
+  \For{$j$ \textbf{from} $1$ \textbf{to} $n_i$}
+    \State $x \gets i+1$
+    \For{$y$ \textbf{from} $1$ \textbf{to} $n_x$}
+      \If{$a_{ij}$ adjacent to $a_{xy}$}
+        \State $c \gets c+1$
+      \Else
+        \State \textbf{break} \textit{ //not adjacent to $a_{xy+1}$ through $a_{xn_{x}}$ as well}
+      \EndIf
+    \EndFor
+  \EndFor
+  \State $C \gets MAX(C, c)$
+\EndFor
+\State \textbf{return} $C$\\
 \end{algorithmic}
 \textit{Counterexample:}\\
-\\\textit{Columns:}\\
-$col$ $1 : a_{11} = 0.325$, $a_{12} = 0.225$, $a_{13} = 0.225$, $a_{14} = 0.225$\\ 
-$col$ $2 : a_{21} = 0.45$, $a_{22} = 0.225$, $a_{23} = 0.225$, $a_{24} = 0.1$\\
-$col$ $3 : a_{31} = 0.225$, $a_{32} = 0.225$, $a_{33} = 0.225$, $a_{34} = 0.225$, $a_{35} = 0.1$\\
-$col$ $4 : a_{41} = 0.325$, $a_{42} = 0.225$, $a_{43} = 0.1125$, $a_{44} = 0.1125$, $a_{45} = 0.1125$, $a_{46} = 0.1125$\\
-$col$ $5 : a_{51} = 0.55$, $a_{52} = 0.45$\\
-$col$ $6 : a_{61} = 0.33333,$ $a_{62} = 0.33333$, $a_{63} = 0.33333$\\
-$col$ $7 : a_{71} = 0.44444$, $a_{72} = 0.22222$, $a_{73} = 0.22222$, $a_{74} = 0.11112$\\
-\\\textit{Created Sets:}\\
-$S_1 = \{a_{11}$, $a_{21}$, $a_{31}$, $a_{41}$, $a_{51}$, $a_{61}$, $a_{71} \}$\\
-$S_2 = \{a_{11}$, $a_{21}$, $a_{32}$, $a_{41}$, $a_{51}$, $a_{61}$, $a_{71} \}$\\
-$S_3 = \{a_{12}$, $a_{21}$, $a_{32}$, $a_{42}$, $a_{51}$, $a_{62}$, $a_{71} \}$\\
-$S_4 = \{a_{12}$, $a_{22}$, $a_{33}$, $a_{42}$, $a_{51}$, $a_{62}$, $a_{72} \}$\\
-$S_5 = \{a_{13}$, $a_{22}$, $a_{33}$, $a_{43}$, $a_{52}$, $a_{62}$, $a_{72}\}$\\
-$S_6 = \{a_{13}$, $a_{23}$, $a_{34}$, $a_{44}$, $a_{52}$, $a_{63}$, $a_{73}\}$\\
-$S_7 = \{a_{14}$, $a_{23}$, $a_{34}$, $a_{45}$, $a_{52}$, $a_{63}$, $a_{73}\}$\\
-$S_8 = \{a_{14}$, $a_{24}$, $a_{35}$, $a_{46}$, $a_{52}$, $a_{63}$, $a_{74}\}$\\
+\\\textit{Suppose:}\\
+$col$ $1 : a_{11} = 0.6$, $a_{12} = 0.4$\\
+$col$ $2 : a_{21} = 0.4$, $a_{22} = 0.4$, $a_{23} = 0.2$\\
 \\
-Our Greedy algorithm selects the set with largest number of uncovered tiles $S_1$. As we mark all tiles of first row $a_{i1} \in S_1$ as covered, the algorithm will choose the next set $s \in S$ that contains most uncovered tiles, repeating this process until all tiles are covered. After $S_1$ is chosen, the algorithm selects $S_6$, $S_4$, $S_8$, $S_2$, $S_5$ and $S_7$, respectively. Every time the algorithm selects a set with the largest number of uncovered tiles, the number of colors needed increase by one, therefore, with our Greedy approach, the algorithm will return $7$ as the minimal number of colors, however, the optimal number of colors for the given example is $6$. Thus, the Greedy approach given is not optimal. See below:\\
+Our Greedy algorithm selects $a_{11}$ as being adjacent to $a_{21}$ and $a_{22}$. After that, it selects $a_{12}$ as being adjacent to $a_{22}$ and $a_{23}$, returning $4$ as the minimal number of colours. The algorithm could not rearrange $a_{22}$ and $a_{23}$ so that $a_{11}$ would be adjacent to $a_{21}$ and $a_{23}$; and $a_{12}$ would be adjacent to $a_{22}$, returning $3$, the optimal number of colors for this problem. Thus, the Greedy approach given is not optimal. See below:\\
 \\
-$T_{greedy} = \{S_1, S_2, S_4, S_5, S_6, S_7, S_8\}$. \textbf{min:} $7$ colors\\
-$T_{opt} = \{S_1, S_2, S_5, S_6, S_7, S_8\}$. \textbf{min:} 6 colors\\
+$W_{greedy} = \{(a_{11}, a_{21}), (a_{11}, a_{22}), (a_{12}, a_{22}), (a_{12}, a_{23})\}$. \textbf{min:} $4$ colors\\
+$W_{opt} = \{(a_{11}, a_{21}), (a_{11}, a_{23}), (a_{12}, a_{22})\}$. \textbf{min:} 3 colors\\
 \\
 \textbf{\#4}\\
 \textit{Definition:} For $0 \leq i \leq m$, $0 \leq j \leq n$, define $M[i, j]$ as the optimal number of paths in the Cartesian plane from $(0, 0)$ to $(i, j)$ that uses the combined number of steps of type $U$(up, $M[i-1, j]$), $R$(right, $M[i, j-1]$) and $D$(diagonal, $M[i-1, j-1]$). The optimal number of paths from $(0,0)$ to $(m, n)$ is then $M[m, n]$.\\
