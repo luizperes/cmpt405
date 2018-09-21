@@ -142,8 +142,32 @@ Algorithm:\\
 \EndFor
 \State \textbf{return} $M[m, n]$\\
 \end{algorithmic}
-\textit{Running time evaluation:} All operations on $M$ (inside the loops) are constant and therefore the running time of the algorithm is $O(mn)$\\\\
+\textit{Running time:} All operations on $M$ (inside the loops) are constant and therefore the running time of the algorithm is $O(mn)$\\\\
 \textit{Expression}:\\
 For $d$ steps of type $D$(diagonal), there must have $m - d$ steps of type $U$ and $n - d$ steps of type $R$, in order to reach $(m, n)$. It can then be represented by:\\
-$$M(m, n) = \sum_{d=0}^{min(m, n)} {m + n - d \choose m} {m \choose d} $$
+$$M(m, n) = \sum_{d=0}^{min(m, n)} {m + n - d \choose m} {m \choose d} $$\\\\
+\textbf{\#5}\\
+The idea of the problem is to use the Greedy approach on the \textbf{set cover} problem to get maximal rectangles, meaning that if I have a position $p_{v_i} = 0$, where $v$ is a leaf of $T$ and $i$ is an index of $u$'s binary string, and I also have $p_{u_i} = 0$, for a leaf $u$ sibling of $v$, then I can maximize a rectangle for a $w$ parent of $v$ and $u$, such that $p_{w_i} = 0$ (the same holds for sequences of $0$'s). We start the algorithm by setting up the sets for the set cover problem such that the longest number of consecutive zeroes and ones stay make a group within a string (e.g $S_v$ for $v = 1011000$ would be $S_v = \{1, 0, 11, 000\}$. We then traverse $T$ such that we get maximal rectangles, see the algorithm below: \\\\
+Algorithm:\\
+\textbf{Input:} \textit{T}
+\begin{algorithmic}
+\For{\textbf{each} $v \in T, children(v) = \emptyset $}
+  \State $S_v \gets$ group $0$'s and $1$'s $\in v$ as a list, such that no $0$ in position $i$ is followed by another (group of) $0$ in position $i+1$ and no $1$ in position $i$ is followed by another (group of) $1$ in position $i+1$
+\EndFor
+\For{\textbf{each} $w \in T_{postorder}, children(w) = \{u, v\}$}
+  \State $S_w \gets$ matching-indexes $0$'s in both $S_v$ and $S_u$
+  \State $S_v \gets S_v - S_w$
+  \State $S_u \gets S_u - S_w$ 
+\EndFor
+\State $Res \gets \emptyset$
+\For{\textbf{each} $v \in T$}
+  \If{$S_v \neq \emptyset$}
+    \State $rectangle \gets \forall(v, (i, j)) \in S_v$ where $p_{v_ij} = \{0\}^{|v|}$
+    \State $Res \gets Res$ $\cup$ $rectangle$
+  \EndIf
+\EndFor
+\State \textbf{return} $Res$\\
+\end{algorithmic}
+\textit{Running time:}\\
+Let $b$ be the number of bits in a binary string on the leaves of $T$. The algorithm then takes $O(nlogn)$ to traverse $T$ and $O(b)$ for each set-related operation inside the loops. Therefore, the total running time of the algorithm is $O(bnlogn)$.
 \end{document}
