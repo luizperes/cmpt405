@@ -182,5 +182,42 @@ Algorithm:\\
 \end{algorithmic}
 \textbf{\#5}
 \\
+\textit{Intuition:}
 \\
+The intuition here is that if there exists any opportunities to start with an initial capital of $1$ unit of $i$ and exchange it until we get more than $1$, then there is a cycle among some edges in the graph $G$ such that we end up with more units than we started. For some edge $e_{ij}$, we will then have a path that looks like: $e_{ij} \rightarrow e_{jk} \rightarrow e_{kl} \rightarrow e_{li}$ such that cost $c = e_{ij} * e_{jk} * e_{kl} * e_{li} > 1$.  This path is a cycle because it starts and finishes in $i$ and that is the reason why we can exchange it back to $i$. If there is no cycle, then there is no possible ways to get back to currency $i$. A good approach for this algorithm is to pre-process our edges $e_{ij}$ (as per $[1])$ and then run Bellman-Ford algorithm to find whether or not there are any negative cycles. The pre-processing starts by using logarithms (it holds true for the problem because the logarithm function is a monotonic increasing function) to convert the multiplication into a summation and then setting the new values so we can run Bellman-Ford: 
+\begin{equation}
+\prod_{1 \leq i < j \leq k} e_{ij}  \tab\text{ to }\tab \sum_{1 \leq i < j \leq k} ln(e_{ij}) 
+\end{equation}
+\\
+Because we want to find negative cycles, we will take equation $(1)$ and invert the sign, because the log is negative for the range $(0, 1)$ and we want the opposite: we want to find negative cycles if the total amount is greater than 1. So we have :
+\begin{equation}
+\sum_{1 \leq i < j \leq k} - ln(e_{ij}) 
+\end{equation}
+\\
+After the pre-processing, it is possible to run Bellman-Ford to find if there is a negative cycle. If so, we know that there are opportunities for currency $i$ to be exchanged and get a value greater than the initial one.
+\\
+Algorithm:\\
+\textbf{Input:} \textit{G}
+\begin{algorithmic}
+\State $s \gets \emptyset$
+\For{\textbf{each} node $i \in G$}
+  \State nodes $\gets$ all relaxed nodes on $n_{th}$ iterarion of Bellman-Ford
+  \State cycle$^{-}$ $\gets$ \textbf{false}
+  \While{nodes $\neq \emptyset$ \textbf{and} \textbf{not} cycle$^{-}$}
+    \State $j \gets $ get any element from nodes
+    \State nodes $\gets$ nodes$- \{j\}$
+    \State $T' \gets $ run BFS with source $j$
+    \If{$i$ is reachable from $j$ (using $T')$}
+      \State cycle$^{-}$ $\gets$ \textbf{true}
+    \EndIf
+  \EndWhile
+  \If{cycle$^{-}$}
+    \State $s \gets s \cup {i}$
+  \EndIf
+\EndFor
+\State \textbf{return} $s$
+\end{algorithmic}
+\textbf{References}
+\\
+\\ $[1]$ - \textit{Coursera: Algorithms on Graphs (https://www.coursera.org/lecture/algorithms-on-graphs/infinite-arbitrage-MrQ2H)}
 \end{document}
