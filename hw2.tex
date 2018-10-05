@@ -1,0 +1,115 @@
+\documentclass{article}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{algpseudocode}
+\newcommand{\QED}{\hfill {\qed}}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\title{\#2 Assignment - CMPT 405}
+\author{Luiz Fernando Peres de Oliveira - 301288301 - lperesde@sfu.ca}
+
+\begin{document}
+
+\maketitle
+\textbf{\#1}
+\\
+First, we draw the table with cost $c$ of multiplying two matrices in the dimensions $\{ 1 \times 1, 1 \times d, d \times 1, d \times d\}$
+\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ $m_1$ & $m_2$ & $m_{res}$ & cost \\
+ \hline
+ $1 \times 1$ & $1 \times 1$ & $1 \times 1$ & $1$ \\
+ \hline
+ $1 \times 1$ & $1 \times d$ & $1 \times d$ & $d$ \\
+ \hline
+ $1 \times d$ & $d \times 1$ & $1 \times 1$ & $d$ \\
+ \hline
+ $1 \times d$ & $d \times d$ & $1 \times d$ & $d^2$ \\
+ \hline
+ $d \times 1$ & $1 \times 1$ & $d \times 1$ & $d$ \\
+ \hline
+ $d \times 1$ & $1 \times d$ & $d \times d$ & $d^2$ \\
+ \hline
+ $d \times d$ & $d \times 1$ & $d \times 1$ & $d^2$ \\
+ \hline
+ $d \times d$ & $d \times d$ & $d \times d$ & $d^3$ \\
+ \hline
+\end{tabular}
+\end{center}
+\textit{Intuition:}
+\\
+The algorithm should always choose the 
+\textbf{\#2}
+\\
+\\
+\textbf{\#3}
+\\
+\\
+\textbf{\#4}\\
+\textit{Definition:} Let $A$ be an array with size $n+1$ and $s$ be a sequence of integers. Initialize $A[0] = - \infty$ and for $1 \leq i \leq n$, define $A[i]$ as the largest contiguous subsequence sum in $s$ after an iteration $i$.  At the end, the largest possible sum will then be the highest element in $A$.\\
+\\
+\textit{Recurrence:}
+\begin{gather*}
+A[i] =
+\begin{cases}
+-\infty \tab\tab\tab\tab\text{   } $if $i = 0 \\
+\text{max } \{A[i-1] + s[i], s[i]\} \tab $ otherwise $
+\end{cases}
+\end{gather*}\\
+Algorithm:\\
+\textbf{Input:} \textit{s, n}
+\begin{algorithmic}
+\State Make array $A$ of size $n + 1$
+\State $A[0] \gets -\infty$
+\State insert $none$ in the index $0$ of $s$ \textit{// make $|s| = |A|$ for the loop}
+\State $best_i \gets 0$
+\For{$i$ \textbf{from} $1$ \textbf{to} $n$}
+  \State $A[i] \gets \text{max } \{A[i-1]+s[i], s[i] \}$
+  \If{$A[i] > A[i-1]$}
+    \State $best_i \gets i$
+  \EndIf
+\EndFor
+\State $s' \gets \emptyset$ \textit{ // find best subsequence index set $s'$}
+\While{$A[best_i] = A[best_i - 1] + s[best_i]$}
+  \State $s' \gets s' \cup \{ best_i \}$
+  \State $best_i \gets best_i - 1$
+\EndWhile
+\State $s' \gets s' \cup best_i$ \textit{// add the lowest index of subsequence}
+\State \textbf{return} $s'$\\
+\end{algorithmic}
+\textit{Demonstration:}
+\\\\
+$s = $
+\begin{tabular}{ |c|c|c|c|c|c|c| } 
+ \hline
+ none & -2 & 11 & -4 & 13 & -5 & -2 \\
+ \hline
+\end{tabular}
+\\
+$A = $
+\begin{tabular}{ |c|c|c|c|c|c|c| } 
+ \hline
+ $-\infty$ & -2 & 11 & 7 & \textbf{20} & 15 & 13 \\
+ \hline
+\end{tabular}
+\\
+$s' = \{ 2, 3, 4\}$
+\\
+\\
+At the end, as $s'$ demonstrates, we will have the range $2..4$ comprising the largest possible sum of a contiguous subsequence in $s$.
+\\
+\\
+\textit{Running time:} The running time of the loops are $O(n)$. All operations on $A$ (inside the loops) are constant ($O(1)$) and therefore the total running time of the algorithm is $O(n)$.\\\\
+\textbf{\#5}
+\\
+\\
+\end{document}
