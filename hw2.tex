@@ -48,8 +48,7 @@ First, we draw the table with cost $c$ of multiplying two matrices in the dimens
 \textit{Intuition:}
 \\
 The algorithm should always choose the lowest possible cost $c \in \{1, d, d^2, d^3\}$ because according to the table above, for any two given fixed matrices $m_1$, $m_2$ in a formula $\varphi$, where $\varphi$ is the formula multiplying $n$ matrices with dimensions $\{ 1 \times 1, 1 \times d, d \times 1, d \times d\}$, if it chooses the lowest cost operation, it will also generate a matrix $m_{res}$ that, by multiplying another (possible) matrix $m_3$, will have cost $c' \geq c$. If $c' = c$, we keep the same cost, which is good, since we picked the lowest cost $c$ at first. If $c' > c$, then, by the table above, $c' = cd$, which is also the lowest possible cost. As a mean of contradiction, if the algorithm chooses a matrix for which $c' > cd$, then the matrix would have non-compatible dimensions. Therefore, it is important that formula $\varphi$ be a valid formula. Because we know that $\varphi$ is always valid, we know that we can group (or parenthesize) the matrices by their dimensions and you will see that it can be done in linear time. The approach of the algorithm is the that with a stack $S$, every time it comes across a matrix $m_i = (1 \times x), x \in \{ 1, d\}, 1 \leq i \leq n$, it pushes $i$ onto $S$, as the idea of the algorithm is to prioritize low costs. At the end, it subdivides $\varphi$ in ascending order subformulas $\varphi' = \varphi_1', ... \varphi_m'$ (recall that we push onto $S$ the indexes of $(1 \times x)$ matrices). For each $\varphi_j' \in \varphi'$, we left-associate the matrices inside them. See the example and algorithm below:
-\\
-\\
+\newpage
 $\varphi = (d \times 1)(1 \times 1)(1 \times d)(d \times 1)(1 \times 1)$
 \\
 $S = $
@@ -96,6 +95,37 @@ Algorithm:\\
 \\
 \end{algorithmic}
 \textbf{\#2}
+\\
+\textit{Definition:} Let $A$ be an array with size $n+1$. Initialize $A[0] = 1$, $A[1]=0$. Define $A[i]$ as the number of possible orders in which you can multiply after an iteration $i$.  At the end, the number total of possible orders will be $A[n]$.
+\\
+\\
+\textit{Recurrence:}
+\\
+\begin{gather*}
+A[i] =
+\begin{cases}
+1 \tab\tab\tab\tab\text{   } $if $ n = 1 $ or $ n = 2 \\
+\sum_{j=1}^{i} A[j-1]*A[i-j] \tab n \geq 2
+\end{cases}
+\end{gather*}
+\newpage
+Algorithm:\\
+\textbf{Input:} \textit{n}
+\begin{algorithmic}
+\State Make array $A$ of size $n + 1$
+\State $A[0] \gets 1$
+\State $A[1] \gets 1$
+\For{$i $ \textbf{ from } $2$ \textbf{ to } $n$}
+  \For{$j $ \textbf{ from } $1$ \textbf{ to } $i$}
+    \State $A[i] \gets A[j-1]*A[i-j]$
+  \EndFor
+\EndFor
+\State \textbf{return} $A[n]$
+\end{algorithmic}
+\textit{Closed form:}
+\\
+The closed form for the catalan number is (as per [2]):\\
+$C_n = \frac{1}{n+1}\bigg(\frac{2n}{n}\bigg)$
 \\
 \\
 \textbf{\#3}\\
@@ -220,4 +250,5 @@ Algorithm:\\
 \textbf{References}
 \\
 \\ $[1]$ - \textit{Coursera: Algorithms on Graphs (https://www.coursera.org/lecture/algorithms-on-graphs/infinite-arbitrage-MrQ2H)}
+\\ $[2]$ - \textit{Catalan number - https://en.wikipedia.org/wiki/Catalan\_number}
 \end{document}
