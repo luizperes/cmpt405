@@ -48,13 +48,12 @@ First, we draw the table with cost $c$ of multiplying two matrices in the dimens
 \textit{Intuition:}
 \\
 The algorithm should always choose the 
+\\
+\\
 \textbf{\#2}
 \\
 \\
-\textbf{\#3}
-\\
-\\
-\textbf{\#4}\\
+\textbf{\#3}\\
 \textit{Definition:} Let $A$ be an array with size $n+1$ and $s$ be a sequence of integers. Initialize $A[0] = - \infty$ and for $1 \leq i \leq n$, define $A[i]$ as the largest contiguous subsequence sum in $s$ after an iteration $i$.  At the end, the largest possible sum will then be the highest element in $A$.\\
 \\
 \textit{Recurrence:}
@@ -108,7 +107,34 @@ $s' = \{ 2, 3, 4\}$
 At the end, as $s'$ demonstrates, we will have the range $2..4$ comprising the largest possible sum of a contiguous subsequence in $s$.
 \\
 \\
-\textit{Running time:} The running time of the loops are $O(n)$. All operations on $A$ (inside the loops) are constant ($O(1)$) and therefore the total running time of the algorithm is $O(n)$.\\\\
+\textit{Running time:} The running time of the loops are $O(n)$. All operations on $A$ (inside the loops) are constant ($O(1)$) and therefore the total running time of the algorithm is $O(n)$.
+\\
+\\
+\textbf{\#4}
+\\
+The idea of the problem is to take any node on the tree $T$, consider it as a root and then do a \textbf{postorder traversal} applying a recurrence similar do the one on question $\#3$. Consider all vertices are labelled $v_1, ..., v_i, ..., v_n$, $1 \leq i \leq n$. Let $A$ be an array that keeps the highest sum of a subtree with root on vertex $v$. As we are doing a postorder traversal, when we compute $A[v_p]$,  $v_p$ being a parent vertex, we will have the sum of the children already computed. We only sum over $A[v_c]$, for all $c$ children of $v_p$, if $A[v_c] > 0$ (call it $A[v_c{+}]$). The recurrence and algorithm would then be:
+\\
+\begin{gather*}
+A[v_i] =
+\begin{cases}
+\text{max } \{ \text{ } \sum_{c^{+} \in \textit{children} (v_i)} A[v_c^{+}] + w(v_i) , w(v_i) \text{ } \}
+\end{cases}
+\end{gather*}\\
+\\
+Algorithm:\\
+\textbf{Input:} \textit{T}
+\begin{algorithmic}
+\State Make array $A$ of size $n$
+\State $best_i \gets 0$ \textit{// $v_{best_i}$ will be the root of $H$}
+\For{\textbf{each} $v_i \in T_{postorder}$}
+  \State $A[v_i] \gets \text{max } \{ \text{ } \sum_{c^{+} \in \textit{children} (v_i)} A[v_c^{+}] + w(v_i) , w(v_i) \text{ } \}$
+  \If{$A[v_i] > A[best_i]$}
+    \State $best_i \gets i$
+  \EndIf
+\EndFor
+\State $H \gets$ Recursively do $(v_i, $ all $v_c^{+} \in $ children$(v_i))\}$ starting on root $A[v_{best_i}]$
+\State \textbf{return} $H, A[v_{best_i}]$\\
+\end{algorithmic}
 \textbf{\#5}
 \\
 \\
