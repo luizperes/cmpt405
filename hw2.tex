@@ -194,14 +194,14 @@ Because we want to find negative cycles, we will take equation $(1)$ and invert 
 \sum_{1 \leq i < j \leq k} - ln(e_{ij}) 
 \end{equation}
 \\
-After the pre-processing, it is possible to run Bellman-Ford to find if there is a negative cycle. If so, we know that there are opportunities for currency $i$ to be exchanged and get a value greater than the initial one.
+After the pre-processing, it is possible to run Bellman-Ford to find if there is a negative cycle. If so, we know that there are opportunities for currency $i$ to be exchanged and get a value greater than the initial one. We repeat that for all currencies. See below:
 \\
 Algorithm:\\
 \textbf{Input:} \textit{G}
 \begin{algorithmic}
 \State $s \gets \emptyset$
 \For{\textbf{each} node $i \in G$}
-  \State nodes $\gets$ all relaxed nodes on $n_{th}$ iterarion of Bellman-Ford
+  \State nodes $\gets$ all relaxed nodes on $n_{th}$ iterarion of Bellman-Ford (source on $i$)
   \State cycle$^{-}$ $\gets$ \textbf{false}
   \While{nodes $\neq \emptyset$ \textbf{and} \textbf{not} cycle$^{-}$}
     \State $j \gets $ get any element from nodes
