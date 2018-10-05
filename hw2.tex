@@ -47,9 +47,54 @@ First, we draw the table with cost $c$ of multiplying two matrices in the dimens
 \end{center}
 \textit{Intuition:}
 \\
-The algorithm should always choose the 
+The algorithm should always choose the lowest possible cost $c \in \{1, d, d^2, d^3\}$ because according to the table above, for any two given fixed matrices $m_1$, $m_2$ in a formula $\varphi$, where $\varphi$ is the formula multiplying $n$ matrices with dimensions $\{ 1 \times 1, 1 \times d, d \times 1, d \times d\}$, if it chooses the lowest cost operation, it will also generate a matrix $m_{res}$ that, by multiplying another (possible) matrix $m_3$, will have cost $c' \geq c$. If $c' = c$, we keep the same cost, which is good, since we picked the lowest cost $c$ at first. If $c' > c$, then, by the table above, $c' = cd$, which is also the lowest possible cost. As a mean of contradiction, if the algorithm chooses a matrix for which $c' > cd$, then the matrix would have non-compatible dimensions. Therefore, it is important that formula $\varphi$ be a valid formula. Because we know that $\varphi$ is always valid, we know that we can group (or parenthesize) the matrices by their dimensions and you will see that it can be done in linear time. The approach of the algorithm is the that with a stack $S$, every time it comes across a matrix $m_i = (1 \times x), x \in \{ 1, d\}, 1 \leq i \leq n$, it pushes $i$ onto $S$, as the idea of the algorithm is to prioritize low costs. At the end, it subdivides $\varphi$ in ascending order subformulas $\varphi' = \varphi_1', ... \varphi_m'$ (recall that we push onto $S$ the indexes of $(1 \times x)$ matrices). For each $\varphi_j' \in \varphi'$, we left-associate the matrices inside them. See the example and algorithm below:
 \\
 \\
+$\varphi = (d \times 1)(1 \times 1)(1 \times d)(d \times 1)(1 \times 1)$
+\\
+$S = $
+\begin{tabular}{ |c|c|c| } 
+ \hline
+ 1 & 2 & 4\\
+ \hline
+\end{tabular}
+\\
+$\varphi' = $
+\begin{tabular}{ |c|c|c|c|c } 
+ \hline
+ $(d \times 1)$ & $(1 \times 1)$ & $(1 \times d)(d \times 1)$ & $(1 \times 1)$ \\
+ \hline
+\end{tabular}
+\\
+$res = (d \times 1) \bigg((1 \times 1) \bigg( \bigg( (1 \times d) (d \times 1) \bigg) (1 \times 1) \bigg) \bigg) $
+\\
+Algorithm:\\
+\textbf{Input:} $\varphi, n$
+\begin{algorithmic}
+\State Make stack $S$
+\For{$i$ from $1 $ to $n$}
+  \State $(row, col) \gets \text{ matrix}_i$
+  \If{row = 1}
+    \State push $i$ onto $S$
+  \EndIf
+\EndFor
+\State $\varphi' = \varphi$
+\While{$S \neq \emptyset$}
+  \State $t \gets \text{ pop } S$
+  \State $v \gets \text{ top } S$ \textit{// check top of $S$ without popping}
+  \State $\text{diff} \gets t - v$
+  \If{$\text{diff} > 0$}
+    \State $\varphi' \gets$ break $\varphi'$ and add parenthesis at pos $v$
+    \State $\text{diff} \gets \text{diff} - 1$
+    \While{$\text{diff} > 0$}
+      \State $\varphi' \gets$ break $\varphi'$ and add parenthesis by left-associating extraneous \tab\tab\ matrices 
+      \State $\text{diff} \gets \text{diff} - 1$
+    \EndWhile
+  \EndIf
+\EndWhile
+\State \textbf{return} $\varphi'$
+\\
+\end{algorithmic}
 \textbf{\#2}
 \\
 \\
