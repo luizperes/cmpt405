@@ -96,7 +96,7 @@ Algorithm:\\
 \end{algorithmic}
 \textbf{\#2}
 \\
-\textit{Definition:} Let $A$ be an array with size $n+1$. Initialize $A[0] = 1$, $A[1]=0$. Define $A[i]$ as the number of possible orders in which you can multiply after an iteration $i$.  At the end, the number total of possible orders will be $A[n]$.
+\textit{Definition:} Let $A$ be an array with size $n+1$. Initialize $A[0] = 1$, $A[1] = 1$. Define $A[i]$ as the number of possible orders in which you can multiply after an iteration $i$.  At the end, the number total of possible orders will be $A[n]$.
 \\
 \\
 \textit{Recurrence:}
@@ -187,12 +187,12 @@ At the end, as $s'$ demonstrates, we will have the range $2..4$ comprising the l
 \\
 \textbf{\#4}
 \\
-The idea of the problem is to take any node on the tree $T$, consider it as a root and then do a \textbf{postorder traversal} applying a recurrence similar do the one on question $\#3$. Consider all vertices are labelled $v_1, ..., v_i, ..., v_n$, $1 \leq i \leq n$. Let $A$ be an array that keeps the highest sum of a subtree with root on vertex $v$. As we are doing a postorder traversal, when we compute $A[v_p]$,  $v_p$ being a parent vertex, we will have the sum of the children already computed. We only sum over $A[v_c]$, for all $c$ children of $v_p$, if $A[v_c] > 0$ (call it $A[v_c{+}]$). The recurrence and algorithm would then be:
+The idea of the problem is to take any node on the tree $T$, consider it as a root and then do a \textbf{postorder traversal} applying a recurrence similar do the one on question $\#3$. Consider all vertices are labelled $v_1, ..., v_i, ..., v_n$, $1 \leq i \leq n$. Let $A$ be an array that keeps the highest sum of a subtree with root on vertex $v$. As we are doing a postorder traversal, when we compute $A[v_p]$,  $v_p$ being a parent vertex, we will have the sum of the children already computed. We only include $A[v_c]$ on the sum of the children of $v_p$ if $A[v_c] > 0$, and, if this holds true, $v_c$ is also denominated $v_c{+}$, for all children $v_c$ of $v_p$. The recurrence and algorithm would then be:
 \\
 \begin{gather*}
 A[v_i] =
 \begin{cases}
-\text{max } \{ \text{ } \sum_{c^{+} \in \textit{children} (v_i)} A[v_c^{+}] + w(v_i) , w(v_i) \text{ } \}
+\text{max } \{ \text{ } \sum_{v_c^{+} \in \textit{children} (v_i)} A[v_c^{+}] + w(v_i) , w(v_i) \text{ } \}
 \end{cases}
 \end{gather*}\\
 \\
