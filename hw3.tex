@@ -50,6 +50,24 @@ $T_d = (A, B), (A, D), (C, D)$
 \\
 \textbf{\#3)}
 \\
+The idea of the algorithm is to use an approach similar to the Floyd-Warshall algorithm for transitive closures, as transitive reductions are essentially the inverse of transitive closures. In Floyd-Warshall, we augment the number of edges whenever we find a path $i \rightarrow k \rightarrow j$ with total weight less than the weight of the path $i \rightarrow j$. However, in transitive reduction, we are interested in minimizing the number of edges that are used, thus, we always prefer paths $i \rightarrow j$ than $i \rightarrow k \rightarrow j$. The algorithm is very straightforward and can be thought as a modification of Floyd-Warshall and has same complexity ($O(n^3)$):
+\\
+Algorithm:\\
+\textbf{Input:} $G=(V,E)$
+\begin{algorithmic}
+\State $E' \gets$ copy $E$
+\For{$i$ \textbf{from} $1$ to $n$}
+  \For{$j$ \textbf{from} $1$ to $n$}
+    \For{$k$ \textbf{from} $1$ to $n$}
+      \If{$\{(i, j), (i, k), (k, j) \} \subseteq E'$, where $(i,j) \neq (i, k) \neq (k, j)$}
+        \State $E' \gets E' - (i, k)$
+      \EndIf
+    \EndFor
+  \EndFor
+\EndFor
+\State \textbf{return} $G'=(V, E')$
+\\
+\end{algorithmic} 
 \textbf{\#4)}
 \\
 Let $T$ be the unrooted tree decomposition of $G$ and $T'$ be a nice tree decomposition of $T$. The idea of the algorithm is to make any node of $T$ (preferably a internal node with many edges or minimum bag width) its root. So to ease the algorithm, we  preprocess the input $T$: after we root $T$, we go through all the bag leaves $b$ in $T$ and create a new bag for every $v_b \in (b - parent(b))$ and make $b$ their parent. We then run a postorder traversal on $T$ and apply the following rules:
@@ -108,8 +126,14 @@ Algorithm:\\
 \EndFor
 \State \textbf{return} $T'$
 \end{algorithmic} 
+\newpage
 \includegraphics[scale=0.7]{1st_demo_graph_hw3}
 \includegraphics[scale=0.7]{2nd_demo_graph_hw3}
+\\
+\\
+\textbf{Note.:} I know joins are only possible with two bags. It was too late to fix that when I realized I did this mistake in my examples and algorithm, please ignore it. Imagine we made $T$ a binary tree and worked from there.
+\\
+\\
 \textbf{\#5)}
 \\
 \textbf{References}
