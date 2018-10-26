@@ -131,11 +131,53 @@ Algorithm:\\
 \includegraphics[scale=0.7]{2nd_demo_graph_hw3}
 \\
 \\
-\textbf{Note.:} I know joins are only possible with two bags. It was too late to fix that when I realized I did this mistake in my examples and algorithm, please ignore it. Imagine we made $T$ a binary tree and worked from there.
+\textbf{Note.:} I know joins are only possible with two bags. It was too late to fix that when I realized I did this mistake in my examples and algorithm on \#4, please ignore it. Imagine we made $T$ a binary tree and worked from there (check image on question \#5).
 \\
 \\
 \textbf{\#5)}
 \\
-\textbf{References}
+\textit{Definition:} (As per lecture 17). Let $B_x$ be the vertices appearing in node $x$ and let $V_x$ be the vertices in the subtree rooted at $x$. Let $M[x, S]$ be a matrix that keeps the size a maximum independent set $I \subseteq V_x$ with $I \cap B_x = S$. At the end of the algorithm, the maximum independent set size will them be on $M[root, S'_{root}]$, where $S'_{root}$ is the best $S$ for the root.\\
 \\
+\textit{Recurrence:}
+\\
+\\
+\textbf{- Leaf:} $B_x$ has no children
+\\
+$M[x, S] = 1$
+\\
+\\
+\textbf{- Introduce:} 1 child $y$, $B_x = B_y \cup \{v\}$, for some vertex $v$
+\begin{gather*}
+M[x, S] =
+\begin{cases}
+M[y, S] \tab\tab\text{ if $v \notin S$ } \\
+M[y, S - \{v\}] + |v| \tab\text{if $v \in S$ but $v$ has no neighbor in $S$ }\\
+-\infty \tab\tab\text{   }\text{ if $S$ contains $v$ and its neighbors }
+\end{cases}
+\end{gather*}\\
+\\
+\textbf{- Forget:} 1 child $y$, $B_x = B_y - \{v\}$, for some vertex $v$
+\\
+$M[x, S] = max\big(M[y, S], M[y, S \cup \{v\}]\big)$
+\\
+\\
+\textbf{- Join:} 2 children $y_1, y_2$, $B_x = B_{y1} = B_{y2}$
+\\
+$M[x, S] = M[y_1, S] + M[y_2, S] - |S|$
+\\
+\\
+Algorithm:\\
+\textbf{Input:} $T', root$
+\begin{algorithmic}
+\For{\textbf{each} $x \in T'{postorder}$}
+  \For{\textbf{each} $I \subseteq V_x$ with $S = I \cap B_x$}
+    \State compute recurrence $M[x, S]$ as described above
+    \State keep best $S$ in $S'$ for every $x$
+  \EndFor
+\EndFor
+\State \textbf{return} $M[root, S'_{root}]$\\
+\end{algorithmic}
+\textit{Demonstration:}
+There are at most $2^{k+1}\times n$ subproblems (entries) in $M$ and therefore its running time is bounded on $M$. Demonstrate that would take a matrix of size $2^4 \times 25$, which is very large. Thus, the image below summarizes it:
+\includegraphics[scale=0.7]{3rd_demo_graph_hw3}
 \end{document}
