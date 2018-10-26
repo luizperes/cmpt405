@@ -46,7 +46,37 @@ $T_c = (A, C), (B, C), (C, D)$
 $T_d = (A, B), (A, D), (C, D)$
 \\
 \\
-\textbf{\#2)}
+\textbf{\#2a)}
+\\
+Intuition: Considering an unweighted graph $G = (V, E)$, every edge comprises same weight (let us say weight $1$) and therefore, the least number of edges used, the better. For example while the path $i \rightarrow j$ will have total distance $1$ by summing through all weights in the path, the path $i \rightarrow ... \rightarrow k ... \rightarrow j$ will have at least total weight equal to $2$ (in case that the path is only $i \rightarrow k \rightarrow j$).
+\\
+\\
+$(1)$ Because of the intuition above, it is correct to say that, for a distance $d_{ij}$, every edge used in $d_{ij}$ will corroborate with exactly $1$ (their weight) in the distance of the path $i$ through $j$. Let $(i, k) \in E$ be such edge. Then, $d_{ij} \leq d_{ik} + d_{kj}$, where $d_{ik} = 1$. Therefore, $d_{ij} \leq 1 + d_{kj}$ and $d_{ij} - 1 \leq d_{kj}$.
+\\
+\\
+$(2)$ Likewise, we do the same for $d_{kj} \leq d_{ki} + d_{ij}$, as $(i, k) = (k, i) \in E$. So, $d_{kj} \leq 1 + d_{ij}$.
+\\
+\\
+Finally, we can join notions $(1)$ and $(2)$ so that we prove that $d_{ij} -1 \leq d_{kj} \leq d_{ij} + 1$.
+\\
+\\
+\textbf{\#2b)}
+\\
+\\
+To show that if $d_{ij}$ is even, then $d'_{kj} \geq d_{ij}$, we have the cases:
+\\
+\textbf{Case 1:} $d_{ij} = 0$, then $d'_{ij} = 0$ and $d'_{kj} \in \{ 0, 1, 2 \} \geq d'_{ij}$\\
+\textbf{Case 2:} $d_{ij}$ is even and $d_{ij} \geq 2$, then $d'_{ij} = 0$ and $d'_{kj} \in \{ 0, 1, 2 \} \geq d'_{ij}$
+\\
+\textbf{Case 3:} $d_{ij} = 2$, then $d'_{ij} = 2$, and $d'_{kj} = 2$, thus $d'_{kj} \geq d'_{ij}$.
+\\
+\\
+To show that if $d_{ij}$ is odd, then $d'_{kj} \leq d'_{ij}$ and $d'_{kj} < d'_{ij}$ for at least one $k$. Because of distance matrix $D'$, we have two cases:\\
+\textbf{Case 1:} $d_{ij} = 1$, the it is proven by part a that $d'_{kj} \leq d'_{ij}$, because of the symmetry in the distance matrix it holds that for at least one $k$, $d'_{kj} < d'_{ij}$.\\
+\textbf{Case 2:} $d_{ij}$ is odd and $d_{ij} \geq 3$. Then $d'_{ij} = 0$ and therefore any $d'_{kj}$ is also equal to zero, thus $d'_{kj} \leq d'_{ij}$ holds.\\
+\\
+\textbf{\#2c)}\\
+\textbf{\#2d)}\\
 \\
 \textbf{\#3)}
 \\
