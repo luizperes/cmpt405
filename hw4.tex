@@ -50,13 +50,16 @@ $$
 min \sum_{(i, j) \in E} w_{ij}x_{ij}
 $$
 \\
-Likewise, the resulting dual will have one variable $y_u$ for each vertex $u$ in the  graph. The values of $y$ have the constraint that $y_i - y_j \leq w_{ij}$ and the objective function is the maximization of $y_s - y_t$:
+The resulting dual will have one variable $y_u$ for each vertex $u$ in the  graph. The values of $y$ have the constraint that $y_j - y_i \leq w_{ij}$ and the objective function is the maximization of $y_s - y_t$:
 $$
 max \text{ } y_s - y_t
 $$
 $$
-y_i - y_j \leq w_{ij} \text{ , } \forall (i,j) \in E
+y_j - y_i \leq w_{ij} \text{ , } \forall (i,j) \in E
 $$
+\textbf{Dual Encoding:}
+The dual can be interpreted as the encoding of Bellman-Ford, because when BF terminates, it has computed for each vertex $j$ a value $y_j$, such that for each edge $(i,j) \in E$, we have the same constraints as the dual: $y_j \leq y_i + w_{ij}$. The objective function is also the maximization of $y_s - y_t$.
+\\
 \textbf{\#2}
 \\
 \textbf{\#3}
