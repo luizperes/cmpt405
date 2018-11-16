@@ -134,7 +134,7 @@ x_i =
 $$
 \textit{minimize } max(x \cdot a, (1-x) \cdot b)
 $$
-In order to find the minimum $max(x \cdot a, (1-x) \cdot b)$ our algorithm will try every single possibility exhaustively. For example, for $n = 3$, our algorithm would try all eight possibilities: $000, 001, 010, 011, 100, 101, 110$ and $111$. Because we have two choices at a time ($0-1$ problem), it will take $O(2^n)$ time to be solved, meaning that is not likely to have an algorithm that will solve the problem in polynomial time as the greedy approach (always taking the smallest number at a time) will fail for some input. Take $a=[3, 4, 10]$ and $b=[5,5,9]$, for example. The DP approach can be done by modifying the $0-1$ knapsack problem (which is not polynomial as well), with utility equals weight, where we take an item from $b$ if $0$, and from $a$ if $1$. Let $M$ be the problem $max(x \cdot a, (1-x) \cdot b)$
+In order to find the minimum $max(x \cdot a, (1-x) \cdot b)$ our algorithm will try every single possibility exhaustively. For example, for $n = 3$, our algorithm would try all eight possibilities: $000, 001, 010, 011, 100, 101, 110$ and $111$. Because we have two choices at a time ($0-1$ problem), it will take $O(2^n n)$ time to be solved, meaning that is not likely to have an algorithm that will solve the problem in polynomial time as the greedy approach (always taking the smallest number at a time) will fail for some input. Take $a=[3, 4, 10]$ and $b=[5,5,9]$, for example. The DP approach can be done by modifying the $0-1$ knapsack problem (which is not polynomial as well), with utility equals weight, where we take an item from $b$ if $0$, and from $a$ if $1$. Let $M$ be the problem $max(x \cdot a, (1-x) \cdot b)$
 \\
 \\
 \begin{proof}
