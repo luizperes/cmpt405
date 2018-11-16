@@ -51,6 +51,7 @@ min \sum_{(i, j) \in E} w_{ij}x_{ij}
 $$
 \\
 The resulting dual will have one variable $y_u$ for each vertex $u$ in the  graph. The values of $y$ have the constraint that $y_j - y_i \leq w_{ij}$ and the objective function is the maximization of $y_s - y_t$:
+\\
 $$
 max \text{ } y_s - y_t
 $$
@@ -60,7 +61,26 @@ $$
 \textbf{Dual Encoding:}
 The dual can be interpreted as the encoding of Bellman-Ford, because when BF terminates, it has computed for each vertex $j$ a value $y_j$, such that for each edge $(i,j) \in E$, we have the same constraints as the dual: $y_j \leq y_i + w_{ij}$. The objective function is also the maximization of $y_s - y_t$.
 \\
+\\
 \textbf{\#2}
+\\
+\\
+In a similar way of question \#1, let $w_e$ be the weight of every $e \in E$ and $x_e$ be $0-1$ variables such that $x_e = 1$ if the edge $e$ is in the matching and $x_e = 0$, otherwise. 
+\begin{gather*}
+x_e =
+\begin{cases}
+1 \tab\tab\text{ inclusion of edge } e \text{ in the matching} \\
+0 \tab\tab\text{ otherwise}\\
+\end{cases}
+\end{gather*}
+We need to choose at each step an augmenting path the produces the largest possible increase in total weight in $G$. Thus, the objective function maximizes the the weight of all edges $e$ in the matching and, because we have a path, we use constraints to limit one edge per vertex so that the path is created in the form $x_e \leq 1$, for all vertices $u$, such that $e=(u, v)$. The linear program is then:
+$$
+max \text{ } \sum_e w_e x_e
+$$
+$$
+\sum_{e=(u,v)} x_e \leq 1 \text{ , } \forall u \in V
+$$
+\\
 \\
 \textbf{\#3}
 \\
