@@ -123,6 +123,40 @@ In spite of working for bipartite graphs, the same does not hold for non-biparti
 \\
 \textbf{\#4}
 \\
+In this problem, we are trying to find the minimum value $max(x \cdot a, (1-x) \cdot b)$, for two vectors $a$ and $b$ of length $n$, $x \in \{0, 1\}^n$. The algorithm to solve such problem is as follows:
+\begin{gather*}
+x_i =
+\begin{cases}
+1 \tab\tab\text{ if we choose element $i$ in vector a}\\
+0 \tab\tab\text{ if we choose element $i$ in vector b}\\
+\end{cases}
+\end{gather*}
+$$
+\textit{minimize } max(x \cdot a, (1-x) \cdot b)
+$$
+In order to find the minimum $max(x \cdot a, (1-x) \cdot b)$ our algorithm will try every single possibility exhaustively. For example, for $n = 3$, our algorithm would try all eight possibilities: $000, 001, 010, 011, 100, 101, 110$ and $111$. Because we have two choices at a time ($0-1$ problem), it will take $O(2^n)$ time to be solved, meaning that is not likely to have an algorithm that will solve the problem in polynomial time as the greedy approach (always taking the smallest number at a time) will fail for some input. Take $a=[3, 4, 10]$ and $b=[5,5,9]$, for example. The DP approach can be done by modifying the $0-1$ knapsack problem (which is not polynomial as well), with utility equals weight, where we take an item from $b$ if $0$, and from $a$ if $1$. Let $M$ be the problem $max(x \cdot a, (1-x) \cdot b)$
+\\
+\\
+\begin{proof}
+\textbf{Reducing knapsack to our problem:} It is known that the knapsack problem is NP-complete (and was shown in class how to reduce it to the partition problem, by using utility equals weight and then comparing the sets). The idea of this problem is to show a reduction in polynomial time of the knapsack problem to our algorithm. Let $K$ be an alias for Knapsack problem. 
+\\
+To show that $K \leq_{p} M$, we only need to make a small change on the abstraction of the problem: on the knapsack problem we have the option of either $(i)$ take element $k$ or $(ii)$ not take element $k$ in a $k_{th}$ iteration. In our reduction, we keep the binary choice by using $(i)$ whenever I choose a $a_k$ element of vector $a$ and $(ii)$ whenever I choose a $b_k$ element of vector $b$ in a $k_{th}$ iteration.
+\\
+\\
+\textbf{Reduction in polynomial time:} The reduction can be done in polynomial time, and, in fact, it does not change the complexity of the problem, because we only changed the way of interpreting the problem.
+\\
+\\
+\textbf{$K$ has a solution iff $M$ has a solution}:
+\\
+Consider $W$ being the total capacity of weight of a knapsack, then:
+\\
+$\Longrightarrow $ If there exists a set of numbers in $K$ that sum up to less or equal than $W$, then there exists a set of some of numbers using vectors $a, b$ such that they sum up to less or equal than $W$.
+\\
+$\Longleftarrow $ Let’s say that there exists some numbers in $a, b$ that sum up to less or equal than $W$, then, these numbers in $K$ would have chosen some numbers in either $(i)$ or $(ii)$, that sum up to equal or less than $W$.
+\\
+\\
+\textbf{NP-hard problem:} Because our problem $M$ was proved to be \textbf{NP-complete}, we know that its optimization version (minimum of $max(x \cdot a, (1-x) \cdot b)$) is NP-hard.
+\end{proof}
 \textbf{\#5}
 \\
 \end{document}
