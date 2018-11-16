@@ -134,7 +134,7 @@ x_i =
 $$
 \textit{minimize } max(x \cdot a, (1-x) \cdot b)
 $$
-In order to find the minimum $max(x \cdot a, (1-x) \cdot b)$ our algorithm will try every single possibility exhaustively. For example, for $n = 3$, our algorithm would try all eight possibilities: $000, 001, 010, 011, 100, 101, 110$ and $111$. Because we have two choices at a time ($0-1$ problem), it will take $O(2^n n)$ time to be solved, meaning that is not likely to have an algorithm that will solve the problem in polynomial time as the greedy approach (always taking the smallest number at a time) will fail for some input. Take $a=[3, 4, 10]$ and $b=[5,5,9]$, for example. The DP approach can be done by modifying the $0-1$ knapsack problem (which is not polynomial as well), with utility equals weight, where we take an item from $b$ if $0$, and from $a$ if $1$. Let $M$ be the problem $max(x \cdot a, (1-x) \cdot b)$
+In order to find the minimum $max(x \cdot a, (1-x) \cdot b)$ our algorithm will try every single possibility exhaustively. For example, for $n = 3$, our algorithm would try all eight possibilities: $000, 001, 010, 011, 100, 101, 110$ and $111$. Because we have two choices at a time ($0-1$ problem), it will take $O(2^n n)$ time to be solved, meaning that is not likely to have an algorithm that will solve the problem in polynomial time as the greedy approach (always taking the smallest number at a time) will fail for some input. Take $a=[3, 4, 10]$ and $b=[5,5,9]$, for example. The DP approach can be done by modifying the $0-1$ knapsack problem (which is not polynomial as well), with utility equals weight, where we take an item from $b$ if $0$, and from $a$ if $1$. Let $M$ be the problem $max(x \cdot a, (1-x) \cdot b)$. We want to show that this is a NP-hard problem:
 \\
 \\
 \begin{proof}
@@ -156,7 +156,26 @@ $\Longleftarrow $ Let’s say that there exists some numbers in $a, b$ that sum 
 \\
 \\
 \textbf{NP-hard problem:} Because our problem $M$ was proved to be \textbf{NP-complete}, we know that its optimization version (minimum of $max(x \cdot a, (1-x) \cdot b)$) is NP-hard.
+\\
 \end{proof}
 \textbf{\#5}
 \\
+As proved in assignment \#1, the wall painting problem is not a problem that can be done by a Greedy algorithm nor it is a problem that can be solved in polynomial time. We should arrange the $n_i$ tiles in column $i$, where all $n_i$ tiles have (possibly) different heights, such that we paint the wall with as few colours as possible. The idea of the algorithm to solve the problem is to treat each column as a set of tiles and the whole wall as a set of sets of tiles. In this way, we may rearrange the tiles in all possibilities until we find the smallest number of used colours. Let $W$ be the alias for the wall painting problem. We want to show that this is a NP-hard problem:
+\\
+\begin{proof}
+\textbf{Reducing the subset sum to our problem:} As a matter of a reduction $SS \leq_p W$, consider the subset sum problem for solving the wall painting problem, and as said above, consider the wall to be a multiset, where every column $i$ is a set. For some integer $k$ representing the colours, does there exist a subset $t$ of $W$ such that the sum of its elements is equal to $k$? In this case here, we might use float values other than the $a_{ij}$ ones, such that all elements adjacent in a row add up to one. For example, if I have three columns with two tiles of same size each, each tile $t_{ij}$ would equal $\frac{1}{3}$ (so that the row adds up to $1$). By doing that, it is possible to change the interpretation of the subset sum question to: Does there exist an arrangement for a subset $t$ of $W$ such $W$ can be painted using at most $k$ colours?
+\\
+\\
+\textbf{Reduction in polynomial time:}  The reduction can be done in polynomial time because the data structures of the wall in problem $W$ can be in fact created in linear time, once we only need to create one set for each column and a larger set (the wall) that owns all sets.
+\\
+\\
+\textbf{$SS$ has a solution iff $W$ has a solution}:
+\\
+$\Longrightarrow $ The subset sum has a solution if some subset of the master set of $W$ is equal to $k$. If so, it means that there is a number of colours $k$ that can be used to paint the wall.
+\\
+$\Longleftarrow $ If there is a number of colours $k$ that satisfies our problem $W$, then, there is a subset sum that adds up to $k$ (by using some of $t_{ij}$).
+\\
+\\
+\textbf{NP-hard problem:} Because our problem $W$ was proved to be \textbf{NP-complete}, we know that its optimization version, using as few colours as possible, is NP-hard.
+\end{proof}
 \end{document}
