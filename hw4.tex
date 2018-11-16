@@ -30,12 +30,12 @@ x_{ij} =
 \end{cases}
 \end{gather*}
 \\
-By the principle of amount of flow network, we have that for each single node $i$, the amount of a flow $f_i$ is equal the difference between the amount of outgoing flow from $i$ and the amount of incoming flow to $i$:
+By the principle of network flow, we have that for each single node $i$, the amount of a flow $f_i$ is equal the difference between the amount of outgoing flow from $i$ and the amount of incoming flow to $i$:
 $$
 f_i = \sum_{j}x_{ij} - \sum_{k} x_{ki}
 $$
 \\
-As we are looking for the shortest path from $s$ to $t$, we know that our network will "travel" from the source to the target, cancelling any flow $f_u$ for single vertices $u$ between $s$ and $t$ in our network, where $u \neq s$ and $u \neq t$. Because there is no incoming flow in $s$, $f_s = 1$. Likewise, because there are no outgoing flow in $t$, $f_t = -1$. Thus:
+As we are looking for the shortest path from $s$ to $t$, we know that our network will "travel" from the source to the target, cancelling any flow $f_u$ for single vertices $u$ between $s$ and $t$ in our network, where $u \neq s$ and $u \neq t$. Because there is no incoming flow in $s$, $f_s = 1$. Likewise, because there is no outgoing flow in $t$, $f_t = -1$. Thus:
 \begin{gather*}
 f_i =
 \begin{cases}
@@ -73,10 +73,10 @@ x_e =
 0 \tab\tab\text{ otherwise}\\
 \end{cases}
 \end{gather*}
-We need to choose at each step an augmenting path $p$ that produces the largest possible increase in weight so that the matching obtained by flipping the edges of a $p$ has maximum weight.
+We need to choose at each step an augmenting path $p$ that produces the largest possible increase in weight so that the matching obtained by flipping the edges has maximum weight.
 \\
 \\
-The objective function maximizes the weight of all edges $e$ in the matching and, because we have a path, we use constraints to limit one edge per vertex so that the path is created in the form $x_e \leq 1$, for all vertices $u$, such that $e=(u, v)$. The linear program is then:
+The objective function maximizes the weight of all edges $e$ in the matching and, because we are augmenting paths in our matchings, we use constraints to limit one edge per vertex so that the path is created in the form $x_e \leq 1$, for all vertices $u$, such that $e=(u, v)$. The linear program is then:
 $$
 max \text{ } \sum_e w_e x_e
 $$
@@ -87,7 +87,40 @@ $$
 \\
 \textbf{\#3}
 \\
-
+To prove that the constraint matrix in previous example is totally unimodular for bipartite graphs, we must prove that every entry is equal to $1, 0$ or $-1$.
+\\
+\\
+Let $x_{ij}$ be an alias for $x_e$ in the previous example, such that $e=(i,j)$. Each row $i$ in $x$ represent a vertex $v_i$ and each column $j$ represents an edge $e=(i, j)$. $x_{ij} = 1$ only if our previous algorithm included $(i, j)$ in the matching.
+\\
+\\
+\begin{proof}
+Consider an arbitrary square submatrix $x'$ of $x$. The goal here is to show that the determinant of $x'$ is in $\{ 1, 0, -1\}$.
+\\
+\\
+\textbf{Case 1:} $x'$ has a column with only 0. Then the determinant of $x' = 0$.
+\\
+\textbf{Case 2:} $x'$ has a column with only 1. By induction, $x''$ has determinant equal $1, 0$ or $-1$ and so does $x'$.
+\[
+x' =
+\begin{bmatrix}
+    1       & ... \\
+    0      & x'' \\
+\end{bmatrix}
+\]
+\textbf{Case 3:} Each column of x' has exactly two 1. Because we are dealing with a bipartite graph, we have two distinct sets $x^{[+1]}, x^{[-1]}$, $x^{[+1]} \cap x^{[-1]} = \emptyset$, such that each edge $e=(i,j) \in x$ will have $i$ in one of this sets and $j$ in the other set (otherwise it would not be bipartite). Because the rows are linearly dependent, by multiplying $+1$ in the rows in $x^{[+1]}$ and $-1$ on the columns in $x^{[-1]}$, the determinant of $x' = 0$.
+\[
+x' =
+\begin{bmatrix}
+    x^{[+1]}\\
+    x^{[-1]}\\
+\end{bmatrix}
+\]
+\end{proof}
+\textbf{Counterexample for non-bipartite graphs:}
+\\
+In spite of working for bipartite graphs, the same does not hold for non-bipartite graphs. It can be easily proved by a simple counterexample (use the same linear program as described on \#2): $G=(V,E)$, $V=\{a, b, c\}$, $E=\{(a,b) = 1/3, (b, c) = 1/3, (a,c) = 1/3\}$.
+\\
+\\
 \textbf{\#4}
 \\
 \textbf{\#5}
