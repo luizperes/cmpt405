@@ -73,7 +73,10 @@ x_e =
 0 \tab\tab\text{ otherwise}\\
 \end{cases}
 \end{gather*}
-We need to choose at each step an augmenting path the produces the largest possible increase in total weight in $G$. Thus, the objective function maximizes the the weight of all edges $e$ in the matching and, because we have a path, we use constraints to limit one edge per vertex so that the path is created in the form $x_e \leq 1$, for all vertices $u$, such that $e=(u, v)$. The linear program is then:
+We need to choose at each step an augmenting path $p$ that produces the largest possible increase in weight so that the matching obtained by flipping the edges of a $p$ has maximum weight.
+\\
+\\
+The objective function maximizes the weight of all edges $e$ in the matching and, because we have a path, we use constraints to limit one edge per vertex so that the path is created in the form $x_e \leq 1$, for all vertices $u$, such that $e=(u, v)$. The linear program is then:
 $$
 max \text{ } \sum_e w_e x_e
 $$
@@ -84,6 +87,7 @@ $$
 \\
 \textbf{\#3}
 \\
+
 \textbf{\#4}
 \\
 \textbf{\#5}
