@@ -1,0 +1,68 @@
+\documentclass{article}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{pgfplots}
+\usepackage{algpseudocode}
+\newcommand{\QED}{\hfill {\qed}}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\graphicspath{ {./imgs/} }
+
+\title{\#4 Assignment - CMPT 405}
+\author{Luiz Fernando Peres de Oliveira - 301288301 - lperesde@sfu.ca}
+
+\begin{document}
+
+\maketitle
+\textbf{\#1}
+\\
+Let $w_{ij}$ be the weight of every $(i, j) \in E$ and $x_{ij}$ be variables such that $x_{ij} = 1$ if the shortest path contains $i \rightarrow j$ and $x_{ij} = 0$, otherwise. The shortest path from a source $s \in V$ to a target $t \in V$ in a weighted graph $G=(V, E, \textit{w})$ can be found by minimizing the summation of $w_{ij}x_{ij}$ for every $(i, j)$. See below:
+\begin{gather*}
+x_{ij} =
+\begin{cases}
+1 \tab\tab\text{ if the shortest path contains } i \rightarrow j \\
+0 \tab\tab\text{ otherwise}\\
+\end{cases}
+\end{gather*}
+\\
+By the principle of amount of flow network, we have that for each single node $i$, the amount of a flow $f_i$ is equal the difference between the amount of outgoing flow from $i$ and the amount of incoming flow to $i$:
+$$
+f_i = \sum_{j}x_{ij} - \sum_{k} x_{ki}
+$$
+\\
+As we are looking for the shortest path from $s$ to $t$, we know that our network will "travel" from the source to the target, cancelling any flow $f_u$ for single vertices $u$ between $s$ and $t$ in our network, where $u \neq s$ and $u \neq t$. Because there is no incoming flow in $s$, $f_s = 1$. Likewise, because there are no outgoing flow in $t$, $f_t = -1$. Thus:
+\begin{gather*}
+f_i =
+\begin{cases}
+1 \text{ } \tab\tab\text{ if } i = s\\
+-1 \tab\tab\text{if } i = t\\
+0 \tab\tab\text{ otherwise}
+\end{cases}
+\end{gather*}
+\\
+Assuming that $x_{ij} \geq 0$, the linear program for the shortest problem is:
+$$
+min \sum_{(i, j) \in E} w_{ij}x_{ij}
+$$
+\\
+Likewise, the resulting dual will have one variable $y_u$ for each vertex $u$ in the  graph. The values of $y$ have the constraint that $y_i - y_j \leq w_{ij}$ and the objective function is the maximization of $y_s - y_t$:
+$$
+max \text{ } y_s - y_t
+$$
+$$
+y_i - y_j \leq w_{ij} \text{ , } \forall (i,j) \in E
+$$
+\textbf{\#2}
+\\
+\textbf{\#3}
+\\
+\textbf{\#4}
+\\
+\textbf{\#5}
+\\
+\end{document}
