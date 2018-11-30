@@ -69,6 +69,14 @@ We know that if we have an algorithm $A$ deciding whether or not a CNF formula i
 \item Every vertex has even degree because the previous step take all vertices of odd degree and find a minimum-weight perfect matching in the induced subgraph given by such vertices.
 \item It is possible make a Hamiltonian circuit by skipping repeated vertices as all vertices have even degree.
 \item Let $TSP^*$ be the optimal traveling salesman tour. Removing an arbitrary edge from $TSP^*$ produces a spanning tree $T$ with total weight $w(T)$ less or equal to the total weight $TSP^*$. If you then number the vertices of odd degree around $TSP^*$ and partition $TSP^*$ into two sets of paths of odd and even numbers, then each set of paths corresponds to a perfect matching of the vertices of odd degree that matches the endpoints of each path, and the weight is at most equal to the weight of the paths. Since these two sets partitions the edges of $TSP^*$, one of the two has at most half of the weight of $TSP^*$ and because of the triangle inequality, the same holds true for its corresponding matching. Adding the weights of the minimum spanning tree and minimum weight perfect matching we have an Euler tour at most $3(TSP^*)/2$.
+\\
 \end{itemize}
 \textbf{\#5}
+\\
+\\
+There is no k-approximation algorithm with $k < \frac{3}{2}$, unless $P = NP$.
+\begin{proof}
+We must reduce the \textit{PARTITION} problem to \textit{BIN PACKING}. For an instance $x_1, ..., x_n$ of \textit{PARTITION}, we let $X = \sum x_i$ and consider an instance of \textit{BIN PACKING} $p_i = 2x_i/X$. We can see that the minimum number of bins for \textit{BIN PACKING} instance is 2 if and only if the answer to the \textit{PARTITION} problem is \textit{YES}. For means of contradiction, unless $P = NP$, assume that there was a k-approximation for \textit{BIN PACKING} with $k < \frac{3}{2}$, then, whenever the exact minimum is 2, the algorithm would always find it, since $3$ would mean an approximation factor $\geq 3/2$, thus, the reduction would be solved in polynomial time (which is not the case). The optimization of this problem is then NP-hard.
+\end{proof}
+
 \end{document}
