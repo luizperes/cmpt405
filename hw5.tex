@@ -60,7 +60,7 @@ $\Longleftarrow $ Assume that there is a truth assignment that satisfies \textit
 \textbf{\#3}
 \\
 \\
-We know that if we have an algorithm $A$ deciding whether or not a CNF formula is satisfiable (\textit{SAT} problem) in polynomial time, then it is the case that we can find a satisfying assignment for such formula in polynomial time. Let $\Gamma$ be the CNF formula with $n$ literals ($l_1, ..., l_n$) that can take the values of either $\{ T, F\}$ and finally, let $\tau$ be the satisfying assignment output for each literal in $\Gamma$. We can then find a satisfying assignment by:
+We know that if we have an algorithm $A$ deciding whether or not a CNF formula is satisfiable (\textit{SAT} problem) in polynomial time, then it is the case that we can find a satisfying assignment for such formula in polynomial time. Let $\Gamma$ be the CNF formula with $n$ literals ($l_1, ..., l_n$) that can take the values of either $\{ T, F\}$ and finally, let $\tau$ be the satisfying assignment output for each literal in $\Gamma$. We can then find a satisfying assignment by first checking if $\Gamma$ is satisfiable and then incrementally applying $A$ to subsets of $\Gamma$ until we find a valid $\tau$	:
 \\
 \newpage
 \textbf{Input:} \textit{$A$, $\Gamma$}
