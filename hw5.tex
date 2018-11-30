@@ -60,6 +60,10 @@ $\Longleftarrow $ Assume that there is a truth assignment that satisfies \textit
 \textbf{\#3}
 \\
 \\
+We know that if we have an algorithm $A$ deciding whether or not a CNF formula is satisfiable in polynomial time, then it can only be a case that this algorithm solves either \textit{1-SAT} or \textit{2-SAT}. As known (also shown is question \#2), \textit{3-SAT} is NP-Complete and cannot be solved in polynomial time, unless $P=NP$. The same holds for any \textit{k-SAT} problem, $k > 2$. Then, to find a satisfying assignment for a CNF formula that is satisfying in polynomial time would only be possible if $A$ is solving either \textit{1-SAT} or \textit{2-SAT}. It is trivial to find a satisfying assignment for \textit{1-SAT}: we only need to make sure that every uni-clause evaluates to true. With \textit{2-SAT}, the number of resolvent clauses of size 2 is quadratic in the number of variables and we can only express implications of the form $a \Rightarrow b $, where $a, b$ are literals and for every clause in the form $L_1 \lor L_2$ we only need to follow every possible implication in a chain way, and therefore it can be done in polynomial time.
+\\
+\\
+
 \textbf{\#4}
 \\
 \\
