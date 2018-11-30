@@ -60,7 +60,25 @@ $\Longleftarrow $ Assume that there is a truth assignment that satisfies \textit
 \textbf{\#3}
 \\
 \\
-We know that if we have an algorithm $A$ deciding whether or not a CNF formula is satisfiable in polynomial time, then it can only be a case that this algorithm solves either \textit{1-SAT} or \textit{2-SAT}. As known (also shown is question \#2), \textit{3-SAT} is NP-Complete and cannot be solved in polynomial time, unless $P=NP$. The same holds for any \textit{k-SAT} problem, $k > 2$. Then, to find a satisfying assignment for a CNF formula that is satisfying in polynomial time would only be possible if $A$ is solving either \textit{1-SAT} or \textit{2-SAT}. It is trivial to find a satisfying assignment for \textit{1-SAT}: we only need to make sure that every uni-clause evaluates to true. With \textit{2-SAT}, the number of resolvent clauses of size 2 is quadratic in the number of variables and we can only express implications of the form $a \Rightarrow b $, where $a, b$ are literals and for every clause in the form $L_1 \lor L_2$ we only need to follow every possible implication in a chain way, and therefore it can be done in polynomial time.
+We know that if we have an algorithm $A$ deciding whether or not a CNF formula is satisfiable (\textit{SAT} problem) in polynomial time, then it is the case that we can find a satisfying assignment for such formula in polynomial time. Let $\Gamma$ be the CNF formula with $n$ literals ($l_1, ..., l_n$) that can take the values of either $\{ T, F\}$ and finally, let $\tau$ be the satisfying assignment output for each literal in $\Gamma$. We can then find a satisfying assignment by:
+\\
+\newpage
+\textbf{Input:} \textit{$A$, $\Gamma$}
+\begin{algorithmic}
+\State Apply $A(\Gamma)$ and return "unsatisfiable" if UNSAT
+\State $\Gamma' \gets \emptyset$ \textit{ // $\Gamma' \subseteq \Gamma$}
+\State $\tau \gets \emptyset$
+\For{$i$ \textbf{from} $1$ \textbf{to} $n$}
+  \State $\Gamma' \gets \Gamma' \cup \{l_i\}$
+  \State $l_i = F$
+  \If{\textbf{not} $A(\Gamma')$}
+    \State $l_i = T$
+  \EndIf
+  \State $\tau \gets \tau \cup \{ l_i\}$
+\EndFor
+\State \textbf{return} $\tau$\\
+\end{algorithmic}
+Since $A$ runs in polynomial time, our algorithm runs in $O(A \cdot n)$ and therefore is polynomial.
 \\
 \\
 \textbf{\#4}
@@ -71,6 +89,7 @@ We know that if we have an algorithm $A$ deciding whether or not a CNF formula i
 \item Let $TSP^*$ be the optimal traveling salesman tour. Removing an arbitrary edge from $TSP^*$ produces a spanning tree $T$ with total weight $w(T)$ less or equal to the total weight $TSP^*$. If you then number the vertices of odd degree around $TSP^*$ and partition $TSP^*$ into two sets of paths of odd and even numbers, then each set of paths corresponds to a perfect matching of the vertices of odd degree that matches the endpoints of each path, and the weight is at most equal to the weight of the paths. Since these two sets partitions the edges of $TSP^*$, one of the two has at most half of the weight of $TSP^*$ and because of the triangle inequality, the same holds true for its corresponding matching. Adding the weights of the minimum spanning tree and minimum weight perfect matching we have an Euler tour at most $3(TSP^*)/2$.
 \\
 \end{itemize}
+\newpage
 \textbf{\#5}
 \\
 \\
