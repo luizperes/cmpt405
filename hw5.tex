@@ -37,24 +37,24 @@ Because the property above holds true, where for every subpath $p \subset A^*$, 
 The intuition here is that the \textit{half-3-CNF-SAT} is NP-Complete, as the problem is a subset of the \textit{3-SAT} problem. We then want to prove that it is possible to reduce the \textit{3-SAT} problem to the \textit{half-3-CNF-SAT} in polynomial time and finally, show that finding a truth assignment $\phi$ that satisfies exactly $k/2$ of the $k$ clauses is NP-hard.
 \\
 \begin{proof}
-\textbf{Reducing 3-SAT to half-3CNF-SAT:} Because half-3-CNF-SAT problem is the problem of checking if exactly half of the clauses evaluate to true, then half of the clauses must evaluate to false. Imagine $\phi$ contains $m$ clauses, then, in our reduction we will add three variables $x, y$ and $z$ and create a $\phi'$ with $4m$ clauses, such that $\phi'$ is an extension of $\phi$, meaning that $\phi'$ contain all $m$ clauses of $\phi$ and:
+\textbf{Reducing 3-SAT to half-3CNF-SAT:} Because half-3-CNF-SAT problem is the problem of checking if exactly half of the clauses evaluate to true, then half of the clauses must evaluate to false. Let $\tau$ be the the original CNF formula and imagine we want to satisfy $m = k/2$ clauses, then, in our reduction we will add three variables $x, y$ and $z$ and create a $\phi'$ that extends $\phi$ and will create $\tau'$ with $4m$ clauses, such that $\tau'$ is an extension of $\tau$, meaning that $\tau'$ contain all $m$ clauses of $\tau$ and:
 \begin{itemize}
 \item $m$ clauses of the form: $(x \lor \lnot x \lor y)$ \textit{ // always true }
 \item $2m$ clauses of the form: $(x \lor y \lor z)$ \textit{ // either all true or all false}
 \end{itemize}
-\textbf{Reduction in polynomial time:} The reduction can be done in polynomial time because we only added three new variables, copied the $m$ clauses from $\phi$ and created $3m$ clauses.
+\textbf{Reduction in polynomial time:} The reduction can be done in polynomial time because we only added three new variables, copied the $m$ clauses from $\tau$ and created $3m$ clauses.
 \\
 \\
 \textbf{3-SAT has a solution iff half-3-CNF-SAT has a solution}:
 \\
 \\
-$\Longrightarrow $ Assume that there is a truth assignment $\phi$ that satisfies the $m$ clauses. Then there are $2m$ clauses in $\phi'$ that are satisfied (the clauses in $phi + $ the $m$ clauses that are always true and we let $x$, $y$ and $z$ be false so that $2m$ clauses are false. Therefore, half of the clauses are true and half o the clauses are false.
+$\Longrightarrow $ Assume that there is a truth assignment $\phi$ that satisfies the $m$ clauses. Then there are $2m$ clauses in $\tau'$ that are satisfied (the clauses in $\tau + m$ clauses that are always true) and we let $x$, $y$ and $z$ be false so that $2m$ clauses are false. Therefore, half of the clauses are true and half o the clauses are false.
 \\
 \\
-$\Longleftarrow $ Assume that there is a truth assignment that satisfies \textit{half-3-CNF-SAT} or a truth assignment that makes half the clauses in $\phi'$ true and half false. As $m$ clauses are always true in $\phi'$, $2m$ clauses cannot be true if \textit{half-3-CNF-SAT} is satisfied because that would comprise $3m$ clauses, therefore breaking it. Thus, the $2m$ clauses must be false so that $\phi$ is true and meaning that \textit{3-SAT} is also satisfied. 
+$\Longleftarrow $ Assume that there is a truth assignment that satisfies \textit{half-3-CNF-SAT} or a truth assignment that makes half the clauses in $\tau'$ true and half false. As $m$ clauses are always true in $\tau'$, $2m$ clauses cannot be true if \textit{half-3-CNF-SAT} is satisfied because that would comprise $3m$ clauses, therefore breaking it. Thus, the $2m$ clauses must be false so that $\tau$ is true and meaning that \textit{3-SAT} is also satisfied. 
 \\
 \\
-\textbf{NP-hard problem:} Because \textit{half-3-CNF-SAT} is {NP-complete}, its optimization version (finding a set of exactly $k/2$ clauses that are satisfied by $\phi$) is NP-hard.
+\textbf{NP-hard problem:} Because \textit{half-3-CNF-SAT} is {NP-complete}, its optimization version (finding a set of exactly $k/2$ clauses that are satisfied by the truth assignment $\phi$) is NP-hard.
 \\
 \end{proof}
 \textbf{\#3}
